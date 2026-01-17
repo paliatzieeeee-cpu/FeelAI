@@ -10,8 +10,7 @@ import requests
 from flask import Flask, render_template, request, redirect, url_for, session, flash, send_from_directory
 from werkzeug.utils import secure_filename
 
-# Προαιρετικό: αν τρέχεις local με Ollama, το import θα δουλεύει
-# Στο Render μπορεί να μην το έχεις εγκατεστημένο, οπότε το κάνουμε safe
+
 try:
     import ollama
 except Exception:
@@ -38,13 +37,13 @@ os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 # Ρυθμίσεις LLM Provider
 # -----------------------------
 # Στο Render: LLM_PROVIDER=groq
-# Τοπικά: LLM_PROVIDER=ollama (αν έχεις Ollama)
+# Τοπικά: LLM_PROVIDER=ollama (αν υπάρχει Ollama)
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq").strip().lower()
 
 # Groq (OpenAI-compatible)
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "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").strip()
-GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant").strip()  # δες Groq models list :contentReference[oaicite:1]{index=1}
-GROQ_BASE_URL = os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1").strip()  # :contentReference[oaicite:2]{index=2}
+GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant").strip() 
+GROQ_BASE_URL = os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1").strip() 
 
 # Ollama (local)
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434").strip()
@@ -182,7 +181,7 @@ def run_image_mode(image_path, detector_backend="opencv"):
 
 
 def groq_generate(prompt: str) -> str:
-    # Καλεί Groq OpenAI-compatible endpoint: /chat/completions :contentReference[oaicite:3]{index=3}
+    # Καλεί Groq OpenAI-compatible endpoint: /chat/completions
     if not GROQ_API_KEY:
         return "GROQ_API_KEY is missing on the server."
 
@@ -207,7 +206,7 @@ def groq_generate(prompt: str) -> str:
         return f"Groq request failed: {str(e)}"
 
     if r.status_code != 200:
-        # Κόβουμε το μήνυμα για να μην “φουσκώνει” η απάντηση
+        # Κόβουμε το μήνυμα για να μην έχουμε ογκώδεις απαντήσεις
         return f"Groq API error ({r.status_code}): {r.text[:250]}"
 
     data = r.json()
@@ -244,7 +243,7 @@ def llm_generate_description(detections, prompt_style="focus_emotion"):
 
 
 def push_message(role, content, detections=None, image_url=None, latency=None):
-    # Κρατάμε chat ιστορικό στο session (χωρίς JavaScript)
+    # Κρατάμε chat ιστορικό στο session
     if "chat" not in session:
         session["chat"] = []
 
@@ -260,7 +259,7 @@ def push_message(role, content, detections=None, image_url=None, latency=None):
 
 @app.route("/", methods=["GET"])
 def index():
-    # Το template σου λέγεται webpage.html
+    # Το template μας λέγεται webpage.html
     chat_hist = session.get("chat", [])
     return render_template("webpage.html", chat=chat_hist)
 
@@ -275,7 +274,7 @@ def clear_chat():
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    # Upload και μετά redirect σε loading screen (χωρίς JavaScript)
+    # Upload και μετά redirect σε loading screen
     prompt_style = request.form.get("prompt_style", "focus_emotion").strip()
     detector_backend = request.form.get("detector_backend", "opencv").strip()
 
@@ -318,7 +317,7 @@ def chat():
 
 @app.route("/loading", methods=["GET"])
 def loading():
-    # Εμφανίζει σελίδα φόρτωσης (οπτικό feedback χωρίς JavaScript)
+    # Εμφανίζει σελίδα φόρτωσης (οπτικό feedback)
     if not session.get("pending_upload"):
         return redirect(url_for("index"))
     return render_template("loading.html")
@@ -373,7 +372,7 @@ def uploaded_file(filename):
 
 
 if __name__ == "__main__":
-    # Το Render δίνει port στο env PORT, οπότε το σεβόμαστε
     port = int(os.getenv("PORT", "5000"))
     print("RUNNING FROM:", os.getcwd())
     app.run(host="0.0.0.0", port=port, debug=True)
+
