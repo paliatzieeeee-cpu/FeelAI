@@ -1,0 +1,15 @@
+# virtual env
+.venv/
+__pycache__/
+*.pyc
+
+# uploads/runtime images
+uploads/
+*.jpg
+*.jpeg
+*.png
+*.webp
+
+# optional
+.env
+.DS_Store
