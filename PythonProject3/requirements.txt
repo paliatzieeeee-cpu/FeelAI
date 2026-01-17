@@ -1,0 +1,10 @@
+flask
+werkzeug
+gunicorn
+requests
+opencv-python-headless
+deepface
+tensorflow
+torch
+numpy
+pandas
