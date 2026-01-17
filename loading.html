@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="refresh" content="0.3; url={{ url_for('process') }}">
+  <title>Processing...</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='webpage.css') }}">
+</head>
+<body>
+  <div class="app">
+    <div class="loading-card">
+      <div class="spinner"></div>
+      <div class="loading-title">Uploading & Processing...</div>
+      <div class="loading-sub">Please wait…</div>
+    </div>
+  </div>
+</body>
+</html>
