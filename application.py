@@ -41,7 +41,7 @@ os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq").strip().lower()
 
 # Groq (OpenAI-compatible)
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "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").strip()
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "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").strip()
 GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant").strip() 
 GROQ_BASE_URL = os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1").strip() 
 
@@ -375,4 +375,5 @@ if __name__ == "__main__":
     port = int(os.getenv("PORT", "5000"))
     print("RUNNING FROM:", os.getcwd())
     app.run(host="0.0.0.0", port=port, debug=True)
+
 
