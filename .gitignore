@@ -1,7 +1,9 @@
 # virtual env
-.venv/
+.env
+*.env
 __pycache__/
-*.pyc
+.venv/
+venv/
 
 # uploads/runtime images
 uploads/
