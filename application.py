@@ -2,6 +2,7 @@ import os
 import time
 import json
 from uuid import uuid4
+from dotenv import load_dotenv
 
 import cv2
 from deepface import DeepFace
@@ -16,7 +17,7 @@ try:
 except Exception:
     ollama = None
 
-
+load_dotenv()
 # Ρυθμίζουμε Flask ώστε:
 # - templates να διαβάζονται από τον φάκελο "templates"
 # - static αρχεία (CSS) να σερβίρονται από τον φάκελο "css"
@@ -41,7 +42,7 @@ os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "groq").strip().lower()
 
 # Groq (OpenAI-compatible)
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "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").strip()
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "").strip()
 GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant").strip() 
 GROQ_BASE_URL = os.getenv("GROQ_BASE_URL", "https://api.groq.com/openai/v1").strip() 
 
@@ -375,5 +376,6 @@ if __name__ == "__main__":
     port = int(os.getenv("PORT", "5000"))
     print("RUNNING FROM:", os.getcwd())
     app.run(host="0.0.0.0", port=port, debug=True)
+
 
 
